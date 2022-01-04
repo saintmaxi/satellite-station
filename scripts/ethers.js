@@ -191,7 +191,7 @@ var collectionsData;
 var collections_contracts = new Map();
 
 async function loadCollectionsData() {
-    collectionsData = await $.getJSON('../data/partner-collections.json');
+    collectionsData = await $.getJSON('./data/partner-collections.json');
 }
 
 const updateSupplies = async() => {
