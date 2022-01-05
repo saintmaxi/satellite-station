@@ -259,9 +259,30 @@ h4 {
         font-size: 2.7vh;
       }
 
+    #header-div {
+        height: 7% !important;
+    }
 
     #max-button {
-        font-size:2vh;
+        font-size: 2.7vh;
+        width: 15%;
+    }
+
+    #number-to-mint {
+        font-size:10vh;
+        margin-top: 5vh;
+    }
+
+    .increment-button {
+        font-size:15vh;
+    }
+
+    #mint-plus {
+        margin-left: 6vh;
+    }
+
+    #mint-minus {
+        margin-right: 6vh;
     }
 
     .mint-input-part {
@@ -276,7 +297,7 @@ h4 {
     #mint-prompt h3 {
         font-size: 4.5vh;
         line-height: 4.6vh;
-        margin-top: 3.5vh;
+        margin: initial;        
     }
 
     #mint-prompt-header {
@@ -286,6 +307,11 @@ h4 {
     #mint-prompt h4 {
         font-size: 4.2vh;
         line-height: 4.3vh;
+        margin: initial;
+    }
+
+    #number-to-mint-header {
+        margin-bottom: 4vh !important;
     }
 
     .mes-icon {
@@ -293,7 +319,7 @@ h4 {
     }
 
     #mint-input {
-        height: 45%;
+        height: 50%;
     }
 
 
