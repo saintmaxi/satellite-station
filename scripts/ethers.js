@@ -100,7 +100,7 @@ const mintWithMES  = async(contractAddress, withCredits) => {
     }
 }
 
-const openMintPrompt = async(contractAddress, name, cost) => {
+const openMintPrompt = async(contractAddress, name, cost, max) => {
     let fakeJSX = `<div id="mint-prompt">
                         <div style="height:15%">
                         <h3 class="section-head">Mint ${name}</h3>
@@ -111,9 +111,9 @@ const openMintPrompt = async(contractAddress, name, cost) => {
                             <div class="mint-input-part">
                                 <h4 class="section-head">Number to Mint:</h4>
                                 <h3 class="section-head">
-                                    <span class="clickable" onclick="decrementClaim(${cost})">⊖</span> 
+                                    <span class="clickable" onclick="decrementClaim(${cost}, ${max})">⊖</span> 
                                     <span id="number-to-mint">1</span> 
-                                    <span class="clickable" onclick="incrementClaim(${cost})">⊕</span>
+                                    <span class="clickable" onclick="incrementClaim(${cost}, ${max})">⊕</span>
                                 </h3>
                             </div>
                             <div class="mint-input-part">
@@ -142,11 +142,13 @@ function decrementClaim(cost) {
     }
 }
 
-function incrementClaim(cost) {
+function incrementClaim(cost, max) {
     let currentClaim = Number($("#number-to-mint").text());
-    let newClaim = currentClaim + 1;
-    $("#number-to-mint").text(newClaim);
-    $("#current-cost").text(newClaim * cost)
+    if (currentClaim != max) {
+        let newClaim = currentClaim + 1;
+        $("#number-to-mint").text(newClaim);
+        $("#current-cost").text(newClaim * cost);
+    }
 }
 
 // Processing txs
@@ -238,7 +240,7 @@ const loadCollections = async() => {
         let current_supply = await collection_contract.totalSupply();
         let button;
         if (collection["status"] == "LIVE") {
-            button = `<button id="mint-prompt-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]})"">MINT</button>`;
+            button = `<button id="mint-prompt-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]}, ${collection["max-mint"]})"">MINT</button>`;
         }
         else if (collection["status"] == "COMPLETE") {
             button = `<a href="${collection["opensea-link"]}" style="text-decoration:none;color:black;" target="_blank"><button id="mint-prompt-button">VIEW ON OPENSEA</button></a>`;
