@@ -222,25 +222,40 @@ const updateInfo = async() => {
 var loadedCollections = false;
 
 const loadCollections = async() => {
+    $("#live-collections").empty();
+    $("#past-collections").empty();
     let collections = collectionsData["collections"];
     for (let i = 0; i < collections.length; i++) {
         let collection = collections[i];
         let name = collection["name"];
         let collection_contract = new ethers.Contract(collection["contract"], collection["abi"].replaceAll(`'`, `"`), signer);
         let current_supply = await collection_contract.totalSupply();
+        let button;
+        if (collection["status"] == "LIVE") {
+            button = `<button id="mint-prompt-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]})"">MINT</button>`;
+        }
+        else if (collection["status"] == "COMPLETE") {
+            button = `<a href="${collection["opensea-link"]}" style="text-decoration:none;color:black;" target="_blank"><button id="mint-prompt-button">VIEW ON OPENSEA</button></a>`;
+        }
         let fakeJSX = `<div class="partner-collection">
                         <img class="collection-img" src="${collection["image"]}">
                         <div class="collection-info">
-                            <h3><a class="clickable" href="${collection["website"]}" style="text-decoration: none;">${name}⬈</a></h3>
+                            <h3><a class="clickable" href="${collection["website"]}" target="_blank" style="text-decoration: none;">${name}⬈</a></h3>
                             <h4>${collection["cost"]} <img class="mes-icon" src="./images/mes.png"> | <span id="${name}-supply">${current_supply}</span>/${collection["max-supply"]} Minted</h4>
                             <div class="inside-text collection-description">
                             ${collection["description"]}
                             </div>
-                        <button id="mint-prompt-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]})"">MINT</button>
+                            ${button}
                         </div>
                        </div>`
-      $("#satellite-div").append(fakeJSX);
-      collections_contracts.set(name, collection_contract);
+        console.log(collection["status"])
+        if (collection["status"] == "LIVE") {
+            $("#live-collections").append(fakeJSX);
+        }
+        else if (collection["status"] == "COMPLETE") {
+            $("#past-collections").append(fakeJSX);
+        }
+        collections_contracts.set(name, collection_contract);
     }
     loadedCollections = true;
 }

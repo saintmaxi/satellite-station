@@ -1,4 +1,4 @@
-#satellite-div {
+#live-collections, #past-collections {
     text-align: center;
     display: -webkit-box;
     display: -webkit-flex;
@@ -19,7 +19,7 @@
     -webkit-box-align: center;
     -webkit-align-items: center;
     -ms-flex-align: center;
-    align-items: center;
+    align-items: stretch;
     margin: auto;
     width: 95%;
 }
@@ -73,6 +73,7 @@ h3 {
     font-size: 1.5vw;
     line-height: 1.6vw;
     color: #00EEFF;
+    margin-top: 1.5vw;
 }
 
 a {
@@ -235,8 +236,8 @@ h4 {
     }
 
     h4 {
-        font-size: 3.2vh;
-        line-height: 3.3vh;
+        font-size: 2.2vh;
+        line-height: 2.3vh;
         color: #00EEFF;
     }
 
@@ -255,22 +256,28 @@ h4 {
     }
 
       #close {
-        padding: .2vh;
+        padding: 1vh;
+        font-size: 4vh;
     }
 
 
     #mint-prompt h3 {
-        font-size: 3.5vh;
-        line-height: 3.6vh;
+        font-size: 4.5vh;
+        line-height: 4.6vh;
+        margin-top: 3.5vh;
     }
 
     #mint-prompt h4 {
-        font-size: 3.2vh;
-        line-height: 3.3vh;
+        font-size: 4.2vh;
+        line-height: 4.3vh;
     }
 
     .mes-icon {
         width: 1.7em
+    }
+
+    #mint-input {
+        height: 45%;
     }
 
 
