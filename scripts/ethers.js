@@ -75,7 +75,6 @@ const claimMEScredits = async() => {
 const mintWithMES  = async(contractAddress, withCredits) => {
     try {
         let numberToMint = Number($("#number-to-mint").text());
-        console.log(numberToMint);
         if (withCredits) {
             await satelliteStation.satelliteMint(contractAddress, "0x984b6968132DA160122ddfddcc4461C995741513", numberToMint, true).then( async(tx_) => {
                 await waitForTransaction(tx_);
@@ -95,7 +94,7 @@ const mintWithMES  = async(contractAddress, withCredits) => {
             await displayErrorMessage(`Error: Insufficient $MES for action!`);
         }
         else {
-            await displayErrorMessage("Unknown error occurred. See console output.");
+            await displayErrorMessage("Unknown error. See console output.");
             console.log(error);
         }
     }
@@ -255,7 +254,6 @@ const loadCollections = async() => {
                             ${button}
                         </div>
                        </div>`
-        console.log(collection["status"])
         if (collection["status"] == "LIVE") {
             $("#live-collections").append(fakeJSX);
         }
