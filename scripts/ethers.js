@@ -222,8 +222,6 @@ const updateInfo = async() => {
 var loadedCollections = false;
 
 const loadCollections = async() => {
-    $("#live-collections").empty();
-    $("#past-collections").empty();
     let collections = collectionsData["collections"];
     for (let i = 0; i < collections.length; i++) {
         let collection = collections[i];
@@ -257,6 +255,8 @@ const loadCollections = async() => {
         }
         collections_contracts.set(name, collection_contract);
     }
+    $("#ex1").remove();
+    $("#ex2").remove();
     loadedCollections = true;
 }
 
