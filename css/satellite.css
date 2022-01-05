@@ -89,6 +89,108 @@ h4 {
     font-size: 1vw;
 }
 
+#mint-prompt {
+    background-color: black;
+    z-index: 99999;
+    position:fixed;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 50vh;
+    border: solid 3px #00fff2;
+    border-radius: .2em;
+    font-size: 2.7vw;
+    animation: glow 1.6s linear infinite;
+  }
+
+#block-screen {
+    opacity: 1;
+    background-color: rgba(0,0,0,0.88) !important;
+}
+
+#close {
+    padding: .2vw;
+}
+
+#mint-button-div {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    height: 15%;   
+}
+
+#mint-input {
+    width: 100%;
+    height: 50%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+
+.mint-input-part {
+    width: 50%;
+}
+
+.button {
+    height: initial;
+}
+
+.mint-button {
+    width: 45%;
+    height: 95%;
+    margin: 2.5%;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: 1.3vw;
+}
+
+.mint-button .mes-icon {
+    cursor: pointer;
+}
+
+#mint-prompt h3 {
+    font-size: 2.5vw;
+    line-height: 2.6vw;
+}
+
+#mint-prompt h4 {
+    font-size: 2.2vw;
+    line-height: 2.3vw;
+}
+
+.mes-icon {
+    width: 1.7em
+}
+
 @keyframes glow {
     0% {
         -webkit-box-shadow:0px 0px 0px 0px rgba(0,255,242,0.9);
@@ -106,7 +208,6 @@ h4 {
         box-shadow: 0px 0px 0px 0px rgba(0,255,242,0.9);
     }
 }
-
 
 @media screen and (max-width: 767px) {
     .navbar-container {
@@ -140,6 +241,47 @@ h4 {
     }
 
     .inside-text {
+        font-size: 3vh;
+    }
+
+    #mint-prompt {
+        width: 100vw;
+        height: 90vh;
+        font-size: 2.7vh;
+      }
+
+    .mint-input-part {
+        width: 100%;
+    }
+
+      #close {
+        padding: .2vh;
+    }
+
+
+    #mint-prompt h3 {
+        font-size: 3.5vh;
+        line-height: 3.6vh;
+    }
+
+    #mint-prompt h4 {
+        font-size: 3.2vh;
+        line-height: 3.3vh;
+    }
+
+    .mes-icon {
+        width: 1.7em
+    }
+
+
+    .mint-button {
+        width: 90%;
+        height: 75%;
+        margin: 5%;
+        font-size: 2.7vh;
+    }
+
+    #mint-prompt-button {
         font-size: 3vh;
     }
 

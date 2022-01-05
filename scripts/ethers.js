@@ -72,15 +72,73 @@ const claimMEScredits = async() => {
     }
 }
 
-const mintWithMES  = async(contractAddress, ) => {
+const mintWithMES  = async(contractAddress, withCredits) => {
     try {
-        await satelliteStation.satelliteMint(contractAddress, "0x984b6968132DA160122ddfddcc4461C995741513", 1, true).then( async(tx_) => {
-            await waitForTransaction(tx_);
-        });
+        let numberToMint = Number($("#number-to-mint").text());
+        console.log(numberToMint);
+        if (withCredits) {
+            await satelliteStation.satelliteMint(contractAddress, "0x984b6968132DA160122ddfddcc4461C995741513", numberToMint, true).then( async(tx_) => {
+                await waitForTransaction(tx_);
+            })
+        }
+        else {
+            await satelliteStation.satelliteMint(contractAddress, "0x984b6968132DA160122ddfddcc4461C995741513", numberToMint, false).then( async(tx_) => {
+                await waitForTransaction(tx_);
+            })
+        }
     }
     catch (error) {
         await displayErrorMessage("An error occurred...");
     }
+}
+
+const openMintPrompt = async(contractAddress, name, cost) => {
+    let fakeJSX = `<div id="mint-prompt">
+                        <div style="height:15%">
+                        <h3 class="section-head">Mint ${name}</h3>
+                        <br>
+                        </div>
+                        <span id="close" onclick='closeDisplay()'>x</span>
+                        <div id="mint-input">
+                            <div class="mint-input-part">
+                                <h4 class="section-head">Number to Mint:</h4>
+                                <h3 class="section-head">
+                                    <span class="clickable" onclick="decrementClaim(${cost})">⊖</span> 
+                                    <span id="number-to-mint">1</span> 
+                                    <span class="clickable" onclick="incrementClaim(${cost})">⊕</span>
+                                </h3>
+                            </div>
+                            <div class="mint-input-part">
+                                <h4 class="section-head">Cost:</h4>
+                                <h3 class="section-head">
+                                    <span id="current-cost">${cost}</span> <img class="mes-icon" src="./images/mes.png"> 
+                                </h3>
+                            </div>
+                        </div>
+                        <div id="mint-button-div">
+                            <button class="mint-button" onclick="mintWithMES(${contractAddress}, false)">MINT WITH <img class="mes-icon" src="./images/mes.png"> BALANCE</button>
+                            <button class="mint-button" onclick="mintWithMES(${contractAddress}, false)">MINT WITH <img class="mes-icon" src="./images/mes.png"> CREDITS</button>
+                        </div>
+                    </div>`;
+    $("body").append(fakeJSX);
+    let height = $(document).height();
+    $("body").append(`<div id='block-screen' onclick='closeDisplay()' style="height:${height}px"></div>`);
+}
+
+function decrementClaim(cost) {
+    let currentClaim = Number($("#number-to-mint").text());
+    if (currentClaim > 1) {
+        let newClaim = currentClaim - 1;
+        $("#number-to-mint").text(newClaim);
+        $("#current-cost").text(newClaim * cost)
+    }
+}
+
+function incrementClaim(cost) {
+    let currentClaim = Number($("#number-to-mint").text());
+    let newClaim = currentClaim + 1;
+    $("#number-to-mint").text(newClaim);
+    $("#current-cost").text(newClaim * cost)
 }
 
 // Processing txs
@@ -157,8 +215,8 @@ const updateInfo = async() => {
         $("#mobile-account").addClass("connected-account");
     }
 
-    $("#your-mes").html(`${await getMESBalance(_address)} <img src="./images/mes.png" width="30px">`);
-    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img src="./images/mes.png" width="30px"><div style="height:5px" class="hide-on-desktop"></div><span onclick="claimMEScredits()">CLAIM</span>`);
+    $("#your-mes").html(`${await getMESBalance(_address)} <img class="mes-icon" src="./images/mes.png">`);
+    $("#your-mes-credits").html(`${await getMESCredits(_address)} <img class="mes-icon" src="./images/mes.png"><div style="height:5px" class="hide-on-desktop"></div><span onclick="claimMEScredits()">CLAIM</span>`);
 };
 
 var loadedCollections = false;
@@ -174,11 +232,11 @@ const loadCollections = async() => {
                         <img class="collection-img" src="${collection["image"]}">
                         <div class="collection-info">
                             <h3><a class="clickable" href="${collection["website"]}" style="text-decoration: none;">${name}⬈</a></h3>
-                            <h4>${collection["cost"]} <img src="./images/mes.png" width="30px"> | <span id="${name}-supply">${current_supply}</span>/${collection["max-supply"]} Minted</h4>
+                            <h4>${collection["cost"]} <img class="mes-icon" src="./images/mes.png"> | <span id="${name}-supply">${current_supply}</span>/${collection["max-supply"]} Minted</h4>
                             <div class="inside-text collection-description">
                             ${collection["description"]}
                             </div>
-                            <button onclick="mintWithMES(${collection["contract"]})">MINT</button>
+                        <button id="mint-prompt-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]})"">MINT</button>
                         </div>
                        </div>`
       $("#satellite-div").append(fakeJSX);
