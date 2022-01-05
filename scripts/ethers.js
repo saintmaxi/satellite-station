@@ -125,8 +125,8 @@ const openMintPrompt = async(contractAddress, name, cost, max) => {
                             </div>
                         </div>
                         <div id="mint-button-div">
-                            <button class="mint-button" onclick="mintWithMES(${contractAddress}, false)">MINT WITH <img class="mes-icon" src="./images/mes.png"> BALANCE</button>
-                            <button class="mint-button" onclick="mintWithMES(${contractAddress}, false)">MINT WITH <img class="mes-icon" src="./images/mes.png"> CREDITS</button>
+                            <button class="mint-button" onclick="mintWithMES('${contractAddress}', false)">MINT WITH <img class="mes-icon" src="./images/mes.png"> BALANCE</button>
+                            <button class="mint-button" onclick="mintWithMES('${contractAddress}', false)">MINT WITH <img class="mes-icon" src="./images/mes.png"> CREDITS</button>
                         </div>
                     </div>`;
     $("body").append(fakeJSX);
