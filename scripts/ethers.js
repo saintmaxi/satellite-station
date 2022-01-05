@@ -88,7 +88,16 @@ const mintWithMES  = async(contractAddress, withCredits) => {
         }
     }
     catch (error) {
-        await displayErrorMessage("An error occurred...");
+        if ((error.message).includes("Not enough MES credits")) {
+            await displayErrorMessage(`Error: Insufficient $MES credits for action!`);
+        }
+        else if ((error.message).includes("Not enough MES to")) {
+            await displayErrorMessage(`Error: Insufficient $MES for action!`);
+        }
+        else {
+            await displayErrorMessage("Unknown error occurred. See console output.");
+            console.log(error);
+        }
     }
 }
 
