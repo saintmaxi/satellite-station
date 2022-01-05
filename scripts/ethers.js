@@ -242,20 +242,28 @@ const loadCollections = async() => {
     for (let i = 0; i < collections.length; i++) {
         let collection = collections[i];
         let name = collection["name"];
+        let id = collection["id"];
         let collection_contract = new ethers.Contract(collection["contract"], collection["abi"].replaceAll(`'`, `"`), signer);
-        let current_supply = await collection_contract.totalSupply();
+        let mint_info = await satelliteStation.contractToSatelliteSettings(collection_contract.address);
+        let minted = mint_info["amountMinted_"];
+        let total = mint_info["amountForMint_"];
         let button;
         if (collection["status"] == "LIVE") {
-            button = `<button id="mint-prompt-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]}, ${collection["max-mint"]})"">MINT</button>`;
+            if (minted != total) {
+                button = `<button class="mint-prompt-button" id="${id}-mint-button" onclick="openMintPrompt('${collection["contract"]}', '${name}', ${collection["cost"]}, ${collection["max-mint"]})"">MINT</button>`;
+            }
+            else {
+                button = `<button disabled class="mint-prompt-button" id="${name}-mint-button">MINTED OUT</button>`;
+            }
         }
         else if (collection["status"] == "COMPLETE") {
-            button = `<a href="${collection["opensea-link"]}" style="text-decoration:none;color:black;" target="_blank"><button id="mint-prompt-button">VIEW ON OPENSEA</button></a>`;
+            button = `<a href="${collection["opensea-link"]}" style="text-decoration:none;color:black;" target="_blank"><button class="mint-prompt-button">VIEW ON OPENSEA</button></a>`;
         }
         let fakeJSX = `<div class="partner-collection">
                         <img class="collection-img" src="${collection["image"]}">
                         <div class="collection-info">
                             <h3><a class="clickable" href="${collection["website"]}" target="_blank" style="text-decoration: none;">${name}⬈</a></h3>
-                            <h4>${collection["cost"]} <img class="mes-icon" src="./images/mes.png"> | <span id="${name}-supply">${current_supply}</span>/${collection["max-supply"]} Minted</h4>
+                            <h4>${collection["cost"]} <img class="mes-icon" src="./images/mes.png"> | <span id="${id}-supply">${minted}</span>/<span id="${id}-max-supply">${total}</span> Minted</h4>
                             <div class="inside-text collection-description">
                             ${collection["description"]}
                             </div>
@@ -268,7 +276,7 @@ const loadCollections = async() => {
         else if (collection["status"] == "COMPLETE") {
             $("#past-collections").append(fakeJSX);
         }
-        collections_contracts.set(name, collection_contract);
+        collections_contracts.set(id, collection_contract);
     }
     $("#ex1").remove();
     $("#ex2").remove();
@@ -283,9 +291,16 @@ async function loadCollectionsData() {
 }
 
 const updateSupplies = async() => {
-    collections_contracts.forEach(async(contract, name) => {
-        let supply = Number(await contract.totalSupply());
-        $(`${name}-supply`).text(supply);
+    collections_contracts.forEach(async(contract, id) => {
+        let mint_info = await satelliteStation.contractToSatelliteSettings(contract.address);
+        let minted = mint_info["amountMinted_"];
+        let total = mint_info["amountForMint_"];
+        if (minted == total) {
+            $(`#${id}-mint-button`).text("MINTED OUT");
+            $(`#${id}-mint-button`).prop("disabled", true);
+        }
+        $(`${id}-supply`).text(minted);
+        $(`${id}-max-supply`).text(total);
     });
 }
 
