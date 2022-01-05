@@ -103,7 +103,7 @@ const mintWithMES  = async(contractAddress, withCredits) => {
 const openMintPrompt = async(contractAddress, name, cost, max) => {
     let fakeJSX = `<div id="mint-prompt">
                         <div style="height:15%">
-                        <h3 class="section-head">Mint ${name}</h3>
+                        <h3 id="mint-prompt-header" class="section-head">Mint ${name}</h3>
                         <br>
                         </div>
                         <span id="close" onclick='closeDisplay()'>x</span>
@@ -113,7 +113,8 @@ const openMintPrompt = async(contractAddress, name, cost, max) => {
                                 <h3 class="section-head">
                                     <span class="clickable" onclick="decrementClaim(${cost}, ${max})">⊖</span> 
                                     <span id="number-to-mint">1</span> 
-                                    <span class="clickable" onclick="incrementClaim(${cost}, ${max})">⊕</span>
+                                    <span class="clickable" onclick="incrementClaim(${cost}, ${max})">⊕</span><br>
+                                    <button id="max-button" onclick="setMaxMint(${cost}, ${max})">MAX</button>
                                 </h3>
                             </div>
                             <div class="mint-input-part">
@@ -149,6 +150,11 @@ function incrementClaim(cost, max) {
         $("#number-to-mint").text(newClaim);
         $("#current-cost").text(newClaim * cost);
     }
+}
+
+function setMaxMint(cost, max) {
+    $("#number-to-mint").text(max);
+    $("#current-cost").text(max * cost)
 }
 
 // Processing txs

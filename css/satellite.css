@@ -105,6 +105,14 @@ h4 {
     animation: glow 1.6s linear infinite;
   }
 
+  #max-button {
+    width:initial;
+    color:black;
+    width:50%;
+    height:initial;
+    font-size:1vw;
+  }
+
 #block-screen {
     opacity: 1;
     background-color: rgba(0,0,0,0.88) !important;
@@ -251,6 +259,11 @@ h4 {
         font-size: 2.7vh;
       }
 
+
+    #max-button {
+        font-size:2vh;
+    }
+
     .mint-input-part {
         width: 100%;
     }
@@ -259,12 +272,15 @@ h4 {
         padding: 1vh;
         font-size: 4vh;
     }
-
-
+    
     #mint-prompt h3 {
         font-size: 4.5vh;
         line-height: 4.6vh;
         margin-top: 3.5vh;
+    }
+
+    #mint-prompt-header {
+        margin-top: 5vh !important;
     }
 
     #mint-prompt h4 {
