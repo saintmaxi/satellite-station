@@ -93,6 +93,9 @@ const mintWithMES  = async(contractAddress, withCredits) => {
         else if ((error.message).includes("Not enough MES to")) {
             await displayErrorMessage(`Error: Insufficient $MES for action!`);
         }
+        else if ((error.message).includes("Satellite Mint is not enabled yet!")) {
+            await displayErrorMessage(`Error: Satellite Mint is not enabled yet!`);
+        }
         else {
             await displayErrorMessage("Unknown error. See console output.");
             console.log(error);
